@@ -249,11 +249,7 @@ POST /api/auth/login       # User authentication
 GET  /api/auth/profile     # Get user profile (protected)
 ```
 
-### File Upload Routes
-```http
-POST /api/upload/single    # Upload single file
-POST /api/upload/multiple  # Upload multiple files
-```
+
 
 ## 📦 Included Dependencies
 

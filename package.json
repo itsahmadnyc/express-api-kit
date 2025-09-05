@@ -15,15 +15,39 @@
     "cli",
     "mongodb",
     "sql",
-    "node"
+    "mysql",
+    "postgresql",
+    "node",
+    "nodejs",
+    "javascript",
+    "rest",
+    "boilerplate",
+    "template",
+    "scaffold",
+    "jwt",
+    "authentication",
+    "file-upload",
+    "cron-jobs",
+    "database-pooling",
+    "security",
+    "production-ready",
+    "enterprise"
   ],
+  "homepage": "https://express-api-kit.netlify.app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/itsahmadnyc/express-api-kit.git"
   },
-  "author": "Muhammad Ahmad",
+  "bugs": {
+    "url": "https://github.com/itsahmadnyc/express-api-kit/issues"
+  },
+  "author": {
+    "name": "Muhammad Ahmad",
+    "email": "its_ahmad_nyc@yahoo.com",
+    "url": "https://express-api-kit.netlify.app/"
+  },
   "license": "MIT",
-  "description": "A CLI tool to generate Express.js API boilerplate with MongoDB or SQL support",
+  "description": "🚀 Production-Ready Express API Generator - Create enterprise-grade APIs with authentication, file uploads, cron jobs, database pooling, and advanced security features. Supports MongoDB, MySQL, and PostgreSQL.",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "commander": "^13.1.0",

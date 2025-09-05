@@ -3,6 +3,25 @@
   "version": "1.0.0",
   "description": "Express API with SQL Database",
   "main": "server.js",
+  "homepage": "https://itsahmadnyc.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/itsahmadnyc/express-api-kit.git"
+  },
+  "author": {
+    "name": "Muhammad Ahmad",
+    "email": "contact@itsahmadnyc.com",
+    "url": "https://itsahmadnyc.github.io/"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "sql",
+    "generator",
+    "template",
+    "rest",
+    "nodejs"
+  ],
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
