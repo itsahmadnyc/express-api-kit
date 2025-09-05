@@ -334,10 +334,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💙 Support & Credits
 
-👨‍💻 **Developed by:** [Muhammad Ahmad](https://github.com/muhammad-ahmad)  
+👨‍💻 **Developed by:** [Muhammad Ahmad](https://github.com/itsahmadnyc)  
 📢 **If you like this tool, give it a ⭐ on GitHub!**  
-🐛 **Report issues:** [GitHub Issues](https://github.com/muhammad-ahmad/express-api-kit/issues)  
-💬 **Discussions:** [GitHub Discussions](https://github.com/muhammad-ahmad/express-api-kit/discussions)  
+🐛 **Report issues:** [GitHub Issues](https://github.com/itsahmadnyc/express-api-kit/issues)  
+💬 **Discussions:** [GitHub Discussions](https://github.com/itsahmadnyc/express-api-kit/discussions)  
 
 ---
 
