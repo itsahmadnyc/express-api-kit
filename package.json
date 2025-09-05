@@ -1,6 +1,6 @@
 {
   "name": "express-api-kit",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "src/generateProject.js",
   "bin": {
     "express-api-gen": "./bin/cli.js"
