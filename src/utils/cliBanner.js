@@ -1,5 +1,5 @@
 const displayCliBanner = () => {
-  console.log('\n' + '='.repeat(80));
+  console.log(`\n${'='.repeat(80)}`);
   console.log(`
   ███████╗██╗  ██╗██████╗ ██████╗ ███████╗███████╗███████╗    
   ██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝    
@@ -19,7 +19,7 @@ const displayCliBanner = () => {
   console.log('🚀 Professional Express API Generator');
   console.log('👨‍💻 Developed by: Muhammad Ahmad');
   console.log('📦 Generate production-ready APIs with advanced features');
-  console.log('='.repeat(80) + '\n');
+  console.log(`${'='.repeat(80)}\n`);
 };
 
 module.exports = { displayCliBanner };

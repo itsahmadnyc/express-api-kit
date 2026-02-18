@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # MySQL Service (default)
+  mysql:
+    image: mysql:8
+    container_name: express-api-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: express_api_db
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: password123
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-prootpassword']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PostgreSQL Service (alternative - comment out MySQL if using this)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: express-api-postgres
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_USER: api_user
+  #     POSTGRES_PASSWORD: password123
+  #     POSTGRES_DB: express_api_db
+  #   ports:
+  #     - '5432:5432'
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ['CMD-SHELL', 'pg_isready -U api_user']
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  # Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: express-api-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      # MySQL Configuration
+      DB_HOST: mysql
+      DB_USER: api_user
+      DB_PASS: password123
+      DB_NAME: express_api_db
+      DB_DIALECT: mysql
+      # PostgreSQL Configuration (uncomment if using postgres)
+      # DB_HOST: postgres
+      # DB_USER: api_user
+      # DB_PASS: password123
+      # DB_NAME: express_api_db
+      # DB_DIALECT: postgres
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production-min-32-chars
+    ports:
+      - '5000:5000'
+    depends_on:
+      mysql:
+        condition: service_healthy
+      # postgres:
+      #   condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - app-network
+    command: npm run dev
+
+volumes:
+  mysql_data:
+    driver: local
+  # postgres_data:
+  #   driver: local
+
+networks:
+  app-network:
+    driver: bridge

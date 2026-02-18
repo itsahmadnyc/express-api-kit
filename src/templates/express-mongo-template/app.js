@@ -1,41 +1,46 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
-const { connectDB } = require("./config/database");
-const authRoutes = require("./routes/auth.routes");
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const { connectDB } = require('./config/database');
+const v1Routes = require('./routes/v1');
+const healthRoutes = require('./routes/health.routes');
+const requestLogger = require('./middlewares/requestLogger.middleware');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 
-// Serve static files from view directory
-app.use(express.static(path.join(__dirname, 'view')));
 
-// Connect to MongoDB
+app.use(requestLogger);
+
+
+app.use(express.static(path.join(__dirname, 'views')));
+
+
 connectDB();
 
-// Routes
-app.use("/api/auth", authRoutes);
 
-// Serve the landing page
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, 'view', 'index.html'));
+app.use('/health', healthRoutes);
+
+app.use('/api/v1', v1Routes);
+
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// API info endpoint
-app.get("/api", (req, res) => {
-    res.status(200).json({
-      message: "Welcome to Express API Kit! 🚀",
-      CreatedBy: "Express Generator API Kit Created by Muhammad Ahmad with ❤️.",
-      status: "Running Smoothly ✅",
-      version: "1.0.0",
-      endpoints: {
-        auth: "/api/auth/*",
-        documentation: "/api-docs",
-        landing: "/"
-      }
-    });
+
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    message: 'Welcome to Express API Kit! 🚀',
+    CreatedBy: 'Express Generator API Kit Created by Muhammad Ahmad with ❤️.',
+    status: 'Running Smoothly ✅',
+    versions: {
+      v1: '/api/v1',
+    },
+    documentation: '/api-docs',
   });
+});
 
 module.exports = app;

@@ -20,19 +20,20 @@ const connectDB = async () => {
       writeConcern: {
         w: process.env.MONGO_WRITE_CONCERN || 'majority',
         j: true,
-        wtimeout: parseInt(process.env.MONGO_WRITE_TIMEOUT) || 5000
+        wtimeout: parseInt(process.env.MONGO_WRITE_TIMEOUT) || 5000,
       },
       readConcern: {
-        level: process.env.MONGO_READ_CONCERN || 'majority'
+        level: process.env.MONGO_READ_CONCERN || 'majority',
       },
       bufferCommands: false,
-      bufferMaxEntries: 0
+      bufferMaxEntries: 0,
     });
-    
+
     console.log('✅ MongoDB Connected...');
-    console.log(`📊 Connection Pool: Max ${mongoose.connection.options.maxPoolSize}, Min ${mongoose.connection.options.minPoolSize}`);
+    console.log(
+      `📊 Connection Pool: Max ${mongoose.connection.options.maxPoolSize}, Min ${mongoose.connection.options.minPoolSize}`
+    );
     console.log(`📈 Read Preference: ${mongoose.connection.options.readPreference}`);
-    
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error);
     process.exit(1);
@@ -54,16 +55,16 @@ const getConnectionInfo = () => {
     0: 'disconnected',
     1: 'connected',
     2: 'connecting',
-    3: 'disconnecting'
+    3: 'disconnecting',
   };
-  
+
   return {
     state: states[state] || 'unknown',
     host: mongoose.connection.host,
     port: mongoose.connection.port,
     name: mongoose.connection.name,
     collections: Object.keys(mongoose.connection.collections),
-    poolSize: mongoose.connection.options?.maxPoolSize || 'default'
+    poolSize: mongoose.connection.options?.maxPoolSize || 'default',
   };
 };
 
@@ -78,7 +79,7 @@ mongoose.connection.on('connected', () => {
   console.log('🔗 Mongoose connected to MongoDB');
 });
 
-mongoose.connection.on('error', (err) => {
+mongoose.connection.on('error', err => {
   console.error('❌ Mongoose connection error:', err);
 });
 

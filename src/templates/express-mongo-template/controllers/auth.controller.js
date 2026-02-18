@@ -1,26 +1,49 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const { User } = require('../models');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { UserResponse } = require('../models/responses');
+const { successResponse, errorResponse } = require('../utils/responseHandler');
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Register User
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: "User already exists" });
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return errorResponse(res, 400, 'User already exists');
+    }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    user = new User({ name, email, password: hashedPassword });
-    await user.save();
+    // Create new user
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || 'user',
+    });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    await newUser.save();
 
-    res.status(201).json({ token, user: { id: user._id, name, email } });
+    // Generate JWT token
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, JWT_SECRET, {
+      expiresIn: '7d',
+    });
+
+    // Use response formatter with response handler
+    successResponse(
+      res,
+      201,
+      'User registered successfully',
+      UserResponse.formatWithToken(newUser, token)
+    );
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    errorResponse(res, 500, error.message);
   }
 };
 
@@ -29,26 +52,41 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Find user by email
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    if (!user) {
+      return errorResponse(res, 400, 'Invalid credentials');
+    }
 
+    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch) {
+      return errorResponse(res, 400, 'Invalid credentials');
+    }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    // Generate JWT token
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      expiresIn: '7d',
+    });
 
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email } });
+    // Use response formatter with response handler
+    successResponse(res, 200, 'Login successful', UserResponse.formatWithToken(user, token));
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    errorResponse(res, 500, error.message);
   }
 };
 
-// Get Logged-in User
-exports.getUser = async (req, res) => {
+// Get User Profile
+exports.getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
-    res.json(user);
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return errorResponse(res, 404, 'User not found');
+    }
+
+    // Use response formatter with response handler
+    successResponse(res, 200, 'Profile retrieved successfully', UserResponse.formatProfile(user));
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    errorResponse(res, 500, error.message);
   }
 };

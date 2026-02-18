@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Express API Kit v3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      :root {
+        --bg: #0f0f10;
+        --surface: #1e1e20;
+        --text: #ededef;
+        --text-muted: #888890;
+        --primary: #646cff;
+        --primary-active: #535bf2;
+        --border: #2e2e32;
+        --line-color: rgba(255, 255, 255, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* Container with Lines */
+      .layout-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        border-left: 1px solid var(--line-color);
+        border-right: 1px solid var(--line-color);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navbar */
+      nav {
+        height: 64px;
+        border-bottom: 1px solid var(--line-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        background: rgba(15, 15, 16, 0.8);
+        backdrop-filter: blur(12px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-right: 1px solid transparent;
+      }
+
+      .logo {
+        font-weight: 700;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .nav-link:hover {
+        color: #fff;
+      }
+
+      /* Tech Strip (Top) */
+      .tech-strip {
+        display: flex;
+        border-bottom: 1px solid var(--line-color);
+        overflow-x: auto;
+      }
+
+      .tech-item {
+        flex: 1;
+        min-width: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.9rem;
+        border-right: 1px solid var(--line-color);
+        gap: 0.5rem;
+        white-space: nowrap;
+      }
+
+      .tech-item:last-child {
+        border-right: none;
+      }
+
+      .tech-item span {
+        transition: color 0.2s;
+      }
+
+      .tech-item:hover span {
+        color: #fff;
+      }
+
+      /* Hero */
+      .hero {
+        padding: 8rem 2rem 6rem;
+        text-align: center;
+        border-bottom: 1px solid var(--line-color);
+        background: radial-gradient(
+          circle at center,
+          rgba(100, 108, 255, 0.08) 0%,
+          transparent 50%
+        );
+      }
+
+      h1 {
+        font-size: clamp(3rem, 5vw, 4.5rem);
+        line-height: 1.1;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+        background: linear-gradient(to bottom right, #fff, #a0a0aa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-desc {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto 2.5rem;
+      }
+
+      .cta-wrapper {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-active);
+      }
+
+      .btn-ghost {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        border: 1px solid var(--line-color);
+      }
+
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Grid Layout Shared */
+      .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media (max-width: 900px) {
+        .grid-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .grid-item {
+        padding: 4rem;
+        border-bottom: 1px solid var(--line-color);
+        border-right: 1px solid var(--line-color);
+      }
+
+      .grid-item:nth-child(2n) {
+        border-right: none;
+      }
+
+      @media (max-width: 900px) {
+        .grid-item,
+        .grid-item:nth-child(2n) {
+          border-right: none;
+        }
+      }
+
+      .grid-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .grid-content p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        max-width: 450px;
+      }
+
+      /* Code Window */
+      .code-window {
+        background: #141416;
+        border: 1px solid var(--line-color);
+        border-radius: 8px;
+        padding: 1.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .code-window::before {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: var(--primary);
+        filter: blur(60px);
+        opacity: 0.1;
+        top: -50px;
+        right: -50px;
+      }
+
+      .line {
+        display: block;
+        color: #a0a0aa;
+        margin-bottom: 0.25rem;
+      }
+
+      .keyword {
+        color: #c996cc;
+      }
+      .string {
+        color: #98c379;
+      }
+      .func {
+        color: #61afef;
+      }
+      .comment {
+        color: #5c6370;
+      }
+      .tree-line {
+        color: #abb2bf;
+        line-height: 1.6;
+      }
+
+      /* Feature Grid */
+      .feature-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-bottom: 1px solid var(--line-color);
+      }
+
+      @media (max-width: 900px) {
+        .feature-strip {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .feature-box {
+        padding: 2.5rem;
+        border-right: 1px solid var(--line-color);
+        border-bottom: 1px solid var(--line-color);
+        transition: background 0.2s;
+      }
+
+      .feature-box:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .feature-box:nth-child(3n) {
+        border-right: none;
+      }
+
+      @media (max-width: 900px) {
+        .feature-box,
+        .feature-box:nth-child(3n) {
+          border-right: none;
+        }
+      }
+
+      .feature-box i {
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      .feature-box h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .feature-box p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* Structure Section */
+      .structure-section {
+        background: #111113;
+      }
+
+      /* Footer */
+      footer {
+        padding: 4rem 2rem;
+        background: #0f0f10;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        footer {
+          grid-template-columns: 1fr;
+          text-align: left;
+        }
+      }
+
+      .footer-col h5 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #fff;
+      }
+
+      .footer-col p,
+      .footer-col a {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        display: block;
+        margin-bottom: 0.5rem;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .footer-col a:hover {
+        color: var(--primary);
+      }
+
+      .footer-bottom {
+        grid-column: 1 / -1;
+        border-top: 1px solid var(--line-color);
+        margin-top: 2rem;
+        padding-top: 2rem;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout-container">
+      <nav>
+        <a href="#" class="logo"> Express API Kit </a>
+        <div class="nav-links">
+          <a href="/api-docs" class="nav-link">Documentation</a>
+          <a href="https://github.com/itsahmadnyc/express-api-kit" target="_blank" class="nav-link"
+            >GitHub</a
+          >
+        </div>
+      </nav>
+
+      <!-- Tech Strip -->
+      <div class="tech-strip">
+        <div class="tech-item">
+          <i data-lucide="server" width="18"></i> <span>Node.js Express</span>
+        </div>
+        <div class="tech-item">
+          <i data-lucide="database" width="18"></i> <span>SQL & NoSQL</span>
+        </div>
+        <div class="tech-item">
+          <i data-lucide="shield" width="18"></i> <span>Security First</span>
+        </div>
+        <div class="tech-item">
+          <i data-lucide="test-tube" width="18"></i> <span>Jest Testing</span>
+        </div>
+        <div class="tech-item">
+          <i data-lucide="container" width="18"></i> <span>Docker Ready</span>
+        </div>
+      </div>
+
+      <!-- Hero -->
+      <section class="hero">
+        <h1>
+          Redefining developer <br />
+          experience
+        </h1>
+        <p class="hero-desc">
+          The all-in-one boilerplate for building production-grade Node.js APIs. Zero config
+          fatigue, just code.
+        </p>
+        <div class="cta-wrapper">
+          <a href="/api-docs" class="btn btn-primary">Get Started</a>
+          <a href="https://github.com/itsahmadnyc/express-api-kit" class="btn btn-ghost"
+            >View on GitHub</a
+          >
+        </div>
+      </section>
+
+      <!-- Main Features Split -->
+      <section class="grid-layout">
+        <!-- Box 1 -->
+        <div class="grid-item">
+          <div class="grid-content">
+            <h3><i data-lucide="zap" width="22"></i> Instant Server Start</h3>
+            <p>
+              Pre-configured with Nodemon and optimized startup sequence. Routes and Middlewares
+              load instantly.
+            </p>
+            <div class="code-window">
+              <span class="line"><span class="comment">// server.js</span></span>
+              <span class="line"
+                ><span class="keyword">const</span> app = <span class="func">express</span>();</span
+              >
+              <span class="line">app.<span class="func">listen</span>(5000, () => {</span>
+              <span class="line"
+                >&nbsp;&nbsp;<span class="func">console</span>.log(<span class="string"
+                  >"🚀 Server ready!"</span
+                >);</span
+              >
+              <span class="line">});</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 2 -->
+        <div class="grid-item">
+          <div class="grid-content">
+            <h3><i data-lucide="check-circle-2" width="22"></i> Lightning Fast Tests</h3>
+            <p>
+              Running unit and integration tests has never been this smooth. Jest is pre-configured
+              for you.
+            </p>
+            <div class="code-window">
+              <span class="line"
+                ><span class="keyword">import</span> request <span class="keyword">from</span>
+                <span class="string">'supertest'</span>;</span
+              >
+              <span class="line"
+                ><span class="func">test</span>(<span class="string">'GET /api/v1'</span>,
+                <span class="keyword">async</span> () => {</span
+              >
+              <span class="line"
+                >&nbsp;&nbsp;<span class="keyword">const</span> res =
+                <span class="keyword">await</span> request(app).<span class="func">get</span>(<span
+                  class="string"
+                  >'/'</span
+                >);</span
+              >
+              <span class="line"
+                >&nbsp;&nbsp;<span class="func">expect</span>(res.status).toBe(200);</span
+              >
+              <span class="line">});</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Project Structure Section (New) -->
+      <section class="grid-layout structure-section">
+        <div class="grid-item">
+          <div class="grid-content">
+            <h3><i data-lucide="folder-tree" width="22"></i> Clean Architecture</h3>
+            <p>
+              Scalable folder structure designed for growth. Logic is separated into controllers,
+              services, and routes for maximum maintainability.
+            </p>
+            <ul style="list-style: none; color: var(--text-muted); margin-bottom: 2rem">
+              <li style="margin-bottom: 0.5rem">
+                <i
+                  data-lucide="check"
+                  width="16"
+                  style="color: var(--primary); display: inline; vertical-align: middle"
+                ></i>
+                Separation of Concerns
+              </li>
+              <li style="margin-bottom: 0.5rem">
+                <i
+                  data-lucide="check"
+                  width="16"
+                  style="color: var(--primary); display: inline; vertical-align: middle"
+                ></i>
+                Service Repository Pattern
+              </li>
+              <li style="margin-bottom: 0.5rem">
+                <i
+                  data-lucide="check"
+                  width="16"
+                  style="color: var(--primary); display: inline; vertical-align: middle"
+                ></i>
+                Environment Configured
+              </li>
+            </ul>
+            <a href="/api-docs" class="btn btn-ghost" style="font-size: 0.9rem">Explore Docs</a>
+          </div>
+        </div>
+        <div class="grid-item">
+          <div class="code-window">
+            <div class="tree-line">my-app/</div>
+            <div class="tree-line">├── config/ <span class="comment"># Env & DB setup</span></div>
+            <div class="tree-line">
+              ├── controllers/ <span class="comment"># Request handlers</span>
+            </div>
+            <div class="tree-line">
+              ├── middlewares/ <span class="comment"># Auth, Validation</span>
+            </div>
+            <div class="tree-line">
+              ├── migrations/ <span class="comment"># DB Migrations</span>
+            </div>
+            <div class="tree-line">├── models/ <span class="comment"># Database Schema</span></div>
+            <div class="tree-line">├── routes/ <span class="comment"># API Endpoints</span></div>
+            <div class="tree-line">├── seeders/ <span class="comment"># Dummy Data</span></div>
+            <div class="tree-line">├── services/ <span class="comment"># Business Logic</span></div>
+            <div class="tree-line">├── utils/ <span class="comment"># Helper functions</span></div>
+            <div class="tree-line">├── app.js <span class="comment"># App Entry</span></div>
+            <div class="tree-line">└── server.js <span class="comment"># Server Start</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature Grid -->
+      <section class="feature-strip">
+        <div class="feature-box">
+          <i data-lucide="lock"></i>
+          <h4>Authentication</h4>
+          <p>
+            Complete JWT auth system with refresh tokens, password hashing (Bcrypt), and Role Based
+            Access Control.
+          </p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="file-check"></i>
+          <h4>Validation</h4>
+          <p>
+            Request validation using Joi schemas to ensure data integrity before it reaches your
+            controllers.
+          </p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="layers"></i>
+          <h4>Database Pooling</h4>
+          <p>
+            Optimized database connections for MongoDB and SQL with robust retry mechanisms and pool
+            management.
+          </p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="upload-cloud"></i>
+          <h4>File Uploads</h4>
+          <p>
+            Ready-to-use middleware for handling file uploads (Multer) with built-in size limits and
+            type checking.
+          </p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="clock"></i>
+          <h4>Cron Jobs</h4>
+          <p>
+            Scheduled background tasks using node-cron. Perfect for automated emails, cleanup, or
+            reports.
+          </p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="container"></i>
+          <h4>Docker Ready</h4>
+          <p>
+            Includes Dockerfile and docker-compose.yml for easy containerization and deployment.
+          </p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="book-open"></i>
+          <h4>API Docs</h4>
+          <p>Swagger/OpenAPI documentation auto-generated and served at /api-docs endpoint.</p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="shield-check"></i>
+          <h4>Security Suite</h4>
+          <p>
+            Hardened with Helmet.js for headers, Express Rate Limit for DDoS protection, and CORS
+            pre-configured.
+          </p>
+        </div>
+        <div class="feature-box">
+          <i data-lucide="mails"></i>
+          <h4>Email & Logging</h4>
+          <p>
+            Nodemailer integration for sending usage emails and Winston for structured production
+            logging.
+          </p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-col">
+          <h5
+            style="
+              color: #fff;
+              font-size: 1.1rem;
+              margin-bottom: 0.5rem;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+            "
+          >
+            <i data-lucide="zap" width="18"></i> Express API Kit
+          </h5>
+          <p>The modern, opinionated boilerplate for Node.js APIs.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Resources</h5>
+          <a href="/api-docs">Documentation</a>
+          <a href="https://github.com/itsahmadnyc/express-api-kit">GitHub</a>
+          <a href="https://www.npmjs.com/package/express-api-kit">NPM Package</a>
+        </div>
+        <div class="footer-col">
+          <h5>Community</h5>
+          <a href="https://github.com/itsahmadnyc/express-api-kit/issues">Report an Issue</a>
+          <a href="https://github.com/itsahmadnyc/express-api-kit/discussions">Discussions</a>
+          <a href="#">Discord Server</a>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 Muhammad Ahmad. Released under the MIT License.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

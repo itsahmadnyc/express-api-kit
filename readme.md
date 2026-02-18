@@ -1,19 +1,19 @@
 # Express API Kit
 
 ```
-  ███████╗██╗  ██╗██████╗ ██████╗ ███████╗███████╗███████╗    
-  ██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝    
-  █████╗   ╚███╔╝ ██████╔╝██████╔╝█████╗  ███████╗███████╗    
-  ██╔══╝   ██╔██╗ ██╔═══╝ ██╔══██╗██╔══╝  ╚════██║╚════██║    
-  ███████╗██╔╝ ██╗██║     ██║  ██║███████╗███████║███████║    
-  ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝    
-                                                              
-   █████╗ ██████╗ ██╗    ██╗  ██╗██╗████████╗                
-  ██╔══██╗██╔══██╗██║    ██║ ██╔╝██║╚══██╔══╝                
-  ███████║██████╔╝██║    █████╔╝ ██║   ██║                   
-  ██╔══██║██╔═══╝ ██║    ██╔═██╗ ██║   ██║                   
-  ██║  ██║██║     ██║    ██║  ██╗██║   ██║                   
-  ╚═╝  ╚═╝╚═╝     ╚═╝    ╚═╝  ╚═╝╚═╝   ╚═╝                   
+  ███████╗██╗  ██╗██████╗ ██████╗ ███████╗███████╗███████╗
+  ██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝
+  █████╗   ╚███╔╝ ██████╔╝██████╔╝█████╗  ███████╗███████╗
+  ██╔══╝   ██╔██╗ ██╔═══╝ ██╔══██╗██╔══╝  ╚════██║╚════██║
+  ███████╗██╔╝ ██╗██║     ██║  ██║███████╗███████║███████║
+  ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
+
+   █████╗ ██████╗ ██╗    ██╗  ██╗██╗████████╗
+  ██╔══██╗██╔══██╗██║    ██║ ██╔╝██║╚══██╔══╝
+  ███████║██████╔╝██║    █████╔╝ ██║   ██║
+  ██╔══██║██╔═══╝ ██║    ██╔═██╗ ██║   ██║
+  ██║  ██║██║     ██║    ██║  ██╗██║   ██║
+  ╚═╝  ╚═╝╚═╝     ╚═╝    ╚═╝  ╚═╝╚═╝   ╚═╝
 ```
 
 🚀 **Production-Ready Express API Generator** - A powerful CLI tool that generates enterprise-grade Express.js APIs with advanced features including authentication, file uploads, cron jobs, database pooling, and comprehensive security middlewares.
@@ -41,12 +41,14 @@ npx express-api-kit
 ```
 
 Follow the interactive prompts:
+
 ```
 ? Enter project name: my-awesome-api
 ? Select database: MongoDB
 ```
 
 Then start developing:
+
 ```bash
 cd my-awesome-api
 npm run dev
@@ -55,30 +57,35 @@ npm run dev
 ## ✨ Advanced Features
 
 ### 🔐 **Authentication & Authorization**
+
 - JWT-based authentication with role-based access control
 - Password hashing with bcryptjs
 - User validation and middleware protection
 - Customizable authentication flows
 
 ### 📁 **File Upload System**
+
 - Multer-powered file upload middleware
 - Configurable upload destinations and file types
 - File size validation and error handling
 - Automatic URL generation for uploaded files
 
 ### ⏰ **Cron Job Scheduler**
+
 - Node-cron integration for background tasks
 - Predefined job templates (daily, hourly, weekly)
 - Custom job creation utilities
 - Environment-based job control
 
 ### 🗄️ **Database Optimization**
+
 - **Connection Pooling** for both SQL and MongoDB
 - Advanced connection management
 - Retry mechanisms and error handling
 - Performance monitoring and statistics
 
 ### 🛡️ **Security & Performance**
+
 - Helmet.js for security headers
 - Rate limiting with express-rate-limit
 - Request compression (gzip)
@@ -86,17 +93,25 @@ npm run dev
 - CORS configuration
 
 ### 📧 **Communication & Logging**
+
 - Nodemailer email service integration
 - Winston-based structured logging
 - Request/response logging with Morgan
 - Custom response handlers
 
+### 🔄 **CI/CD Pipeline**
+
+- Automated GitHub Actions workflows
+- Multi-version Node.js testing
+- Code quality checks (Linting & Formatting)
+- Code coverage reporting
+
 ## 🛠 Interactive Setup
 
 The CLI will prompt you for:
 
-- **Project Name** *(default: express-api-kit)*
-- **Database Selection** *(MongoDB, MySQL, PostgreSQL)*
+- **Project Name** _(default: express-api-kit)_
+- **Database Selection** _(MongoDB, MySQL, PostgreSQL)_
 
 ## 📌 Project Structure
 
@@ -109,17 +124,23 @@ project-name/
 ├── controllers/
 │   └── auth.controller.js   # Authentication logic
 ├── docs/
-│   └── readme.md           # API documentation
+│   ├── readme.md           # API documentation
+│   ├── API_VERSIONING.md   # API versioning guide
+│   └── DATABASE.md         # Database migrations guide (SQL only)
 ├── jobs/
 │   ├── exampleCronJob.js   # Cron job templates
 │   └── jobScheduler.js     # Job management system
 ├── middlewares/
 │   ├── auth.middleware.js  # JWT & role-based authentication
 │   └── upload.middleware.js # File upload handling
+├── migrations/             # Database migrations (SQL only)
 ├── models/
 │   └── User.js            # Database models (Sequelize/Mongoose)
 ├── routes/
-│   └── auth.routes.js     # API route definitions
+│   └── v1/                # Version 1 API routes
+│       ├── index.js       # V1 routes entry point
+│       └── auth.routes.js # Authentication routes
+├── seeders/               # Database seeders (SQL only)
 ├── services/
 │   ├── emailService.js    # Email integration (Nodemailer)
 │   └── fileService.js     # File operations utilities
@@ -130,6 +151,7 @@ project-name/
 ├── view/                  # View templates (SQL template only)
 ├── .env                   # Environment variables
 ├── .gitignore            # Git ignore rules
+├── .sequelizerc          # Sequelize CLI config (SQL only)
 ├── app.js                # Express application setup
 ├── package.json          # Dependencies & npm scripts
 └── server.js             # Application entry point
@@ -153,6 +175,7 @@ project-name/
 A comprehensive **.env** file is automatically generated with optimized defaults:
 
 ### MongoDB Template:
+
 ```ini
 # Server Configuration
 PORT=5000
@@ -187,6 +210,7 @@ ENABLE_CRON_JOBS=true
 ```
 
 ### SQL Template (MySQL/PostgreSQL):
+
 ```ini
 # Server Configuration
 PORT=5000
@@ -229,59 +253,147 @@ npm start          # Production mode
 ```
 
 You'll see the beautiful startup banner:
+
 ```
 ================================================================================
-  ███████╗██╗  ██╗██████╗ ██████╗ ███████╗███████╗███████╗    
+  ███████╗██╗  ██╗██████╗ ██████╗ ███████╗███████╗███████╗
   EXPRESS API KIT - Production Ready API Server
 ================================================================================
 🚀 Server running on http://localhost:5000
-📖 API Documentation: http://localhost:5000/api-docs  
+📖 API Documentation: http://localhost:5000/api-docs
 📊 Connection Pool: Max 10, Min 5
 ⚡ Ready to handle requests!
 ```
 
 ## 🎯 Built-in API Endpoints
 
-### Authentication Routes
+All APIs are versioned for better evolution and backward compatibility.
+
+### API Root
+
 ```http
-POST /api/auth/register    # User registration
-POST /api/auth/login       # User authentication
-GET  /api/auth/profile     # Get user profile (protected)
+GET /api    # API information and available versions
 ```
 
+### Authentication Routes (v1)
 
+```http
+POST /api/v1/auth/register    # User registration
+POST /api/v1/auth/login       # User authentication
+GET  /api/v1/auth/profile     # Get user profile (protected)
+```
+
+## 🔄 API Versioning
+
+Generated projects use URL path versioning (`/api/v1/`, `/api/v2/`, etc.) for:
+
+- ✅ **Backward Compatibility** - Old clients continue working
+- ✅ **Clear Evolution** - Easy to understand which version you're using
+- ✅ **Gradual Migration** - Migrate clients at their own pace
+- ✅ **Deprecation Strategy** - Sunset old versions gracefully
+
+### Adding New Versions
+
+```bash
+# Create v2 directory
+mkdir routes/v2
+
+# Copy and modify routes
+cp routes/v1/auth.routes.js routes/v2/auth.routes.js
+```
+
+💡 **See `docs/API_VERSIONING.md` in generated projects for detailed versioning guide.**
+
+## 🗄️ Database Management (SQL Templates)
+
+SQL-based projects include Sequelize CLI for database migrations and seeders:
+
+### **Migration Commands**
+
+```bash
+npm run migration:create create-users-table  # Create a new migration
+npm run db:migrate                          # Run pending migrations
+npm run db:migrate:undo                     # Undo last migration
+npm run db:migrate:undo:all                 # Undo all migrations
+```
+
+### **Seeder Commands**
+
+```bash
+npm run seed:create demo-users    # Create a new seeder
+npm run db:seed                   # Run all seeders
+npm run db:seed:undo              # Undo all seeders
+```
+
+### **Model Generation**
+
+```bash
+npm run model:create User --attributes "name:string,email:string"
+```
+
+💡 **See `docs/DATABASE.md` in generated projects for detailed examples and best practices.**
 
 ## 📦 Included Dependencies
 
 ### Core Framework
+
 - **express** - Fast, unopinionated web framework
 - **cors** - Cross-Origin Resource Sharing
 - **morgan** - HTTP request logger
 
 ### Database & ORM
+
 - **mongoose** (MongoDB) / **sequelize** (SQL)
 - **mysql2** / **pg** - Database drivers
 
 ### Security & Authentication
+
 - **bcryptjs** - Password hashing
 - **jsonwebtoken** - JWT token management
 - **helmet** - Security headers
 - **express-rate-limit** - Rate limiting
 
 ### File Handling & Jobs
+
 - **multer** - File upload middleware
 - **node-cron** - Task scheduling
 
 ### Utilities & Performance
+
 - **joi** - Input validation
 - **compression** - Response compression
 - **winston** - Advanced logging
 - **nodemailer** - Email service
 
 ### Development Tools
+
 - **nodemon** - Development auto-restart
 - **eslint** - Code linting
 - **prettier** - Code formatting
+
+## 🎨 Code Quality
+
+Every generated project includes pre-configured ESLint and Prettier for consistent code quality:
+
+### **Linting**
+
+```bash
+npm run lint          # Check for code issues
+npm run lint:fix      # Auto-fix linting issues
+```
+
+### **Formatting**
+
+```bash
+npm run format        # Format all code files
+npm run format:check  # Check formatting without changes
+```
+
+### **Configuration Files**
+
+- `eslint.config.js` - ESLint flat config with Node.js best practices
+- `.prettierrc` - Prettier formatting configuration
+- `.prettierignore` - Files to exclude from formatting
 
 ## 🚀 What You Get Out of the Box
 
@@ -289,16 +401,19 @@ GET  /api/auth/profile     # Get user profile (protected)
 ✅ **File Upload API** - Ready-to-use file upload with validation  
 ✅ **Background Jobs** - Cron job system for scheduled tasks  
 ✅ **Database Optimization** - Connection pooling and retry mechanisms  
+✅ **Database Migrations** - Sequelize CLI for schema management (SQL only)  
+✅ **API Versioning** - URL path versioning for backward compatibility  
 ✅ **Security Features** - Rate limiting, helmet, input validation  
 ✅ **Professional Logging** - Structured logging with Winston  
 ✅ **Email Integration** - Nodemailer setup for notifications  
 ✅ **API Documentation** - Swagger UI ready to customize  
-✅ **Production Ready** - Optimized configurations and error handling  
+✅ **Code Quality Tools** - ESLint and Prettier pre-configured  
+✅ **Production Ready** - Optimized configurations and error handling
 
 ## 📊 Performance Features
 
 - **Connection Pooling**: Optimized database connections
-- **Request Compression**: Automatic gzip compression  
+- **Request Compression**: Automatic gzip compression
 - **Rate Limiting**: Protection against abuse
 - **Caching Headers**: Efficient client-side caching
 - **Error Handling**: Comprehensive error management
@@ -333,11 +448,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 👨‍💻 **Developed by:** [Muhammad Ahmad](https://github.com/itsahmadnyc)  
 📢 **If you like this tool, give it a ⭐ on GitHub!**  
 🐛 **Report issues:** [GitHub Issues](https://github.com/itsahmadnyc/express-api-kit/issues)  
-💬 **Discussions:** [GitHub Discussions](https://github.com/itsahmadnyc/express-api-kit/discussions)  
+💬 **Discussions:** [GitHub Discussions](https://github.com/itsahmadnyc/express-api-kit/discussions)
 
 ---
 
-**Happy Coding! 🎉** 
+**Happy Coding! 🎉**
 
 Built with ❤️ for the developer community.
-

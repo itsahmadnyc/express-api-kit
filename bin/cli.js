@@ -4,8 +4,8 @@ const { displayCliBanner } = require('../src/utils/cliBanner');
 
 async function runCLI() {
   displayCliBanner();
-  
-  const inquirer = await import('inquirer'); 
+
+  const inquirer = await import('inquirer');
   const generateProject = require('../src/generateProject');
 
   if (!inquirer.default || typeof inquirer.default.prompt !== 'function') {

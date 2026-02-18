@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:7
+    container_name: express-api-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: express_api_db
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: express-api-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/express_api_db?authSource=admin
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production-min-32-chars
+    ports:
+      - '5000:5000'
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - app-network
+    command: npm run dev
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

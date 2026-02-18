@@ -24,7 +24,15 @@
   ],
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md}\"",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -48,7 +56,9 @@
   },
   "devDependencies": {
     "eslint": "^8.57.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "supertest": "^6.3.3"
   }
 }

@@ -1,12 +1,16 @@
 {
   "name": "express-api-kit",
-  "version": "2.0.2",
+  "version": "3.0.1",
   "main": "src/generateProject.js",
   "bin": {
-    "express-api-gen": "./bin/cli.js"
+    "express-api-kit": "./bin/cli.js"
   },
   "scripts": {
-    "test": "node src/generateProject.js testProject MongoDB"
+    "test": "node src/generateProject.js testProject MongoDB",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md}\""
   },
   "keywords": [
     "express",
@@ -67,6 +71,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "eslint": "^9.23.0",
     "nodemon": "^3.1.9",
     "prettier": "^3.5.3"

@@ -1,0 +1,12 @@
+node_modules
+.git
+.github
+.DS_Store
+test-sql-project
+test-mongo-project
+*.log
+coverage
+.env
+.prettierignore
+eslint.config.js
+jest.config.js

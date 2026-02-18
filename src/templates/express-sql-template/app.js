@@ -2,10 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
-const userRoutes = require('./routes/auth.routes');
+const v1Routes = require('./routes/v1');
+const healthRoutes = require('./routes/health.routes');
 require('dotenv').config();
-const sequelize = require('./config/database'); 
-
+const sequelize = require('./config/database');
+const requestLogger = require('./middlewares/requestLogger.middleware');
 
 const app = express();
 
@@ -13,30 +14,34 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Serve static files from view directory
-app.use(express.static(path.join(__dirname, 'view')));
+// Request logging middleware
+app.use(requestLogger);
 
-// Routes
-app.use('/api', userRoutes);
+// Serve static files from views directory
+app.use(express.static(path.join(__dirname, 'views')));
+
+// Health check routes (before API versioning)
+app.use('/health', healthRoutes);
+
+// API Routes - Version 1
+app.use('/api/v1', v1Routes);
 
 // Serve the landing page
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, 'view', 'index.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
 // API info endpoint
-app.get("/api", (req, res) => {
-    res.status(200).json({
-      message: "Welcome to Express API Kit! 🚀",
-      CreatedBy: "Express Generator API Kit Created by Muhammad Ahmad with ❤️.",
-      status: "Running Smoothly ✅",
-      version: "1.0.0",
-      endpoints: {
-        auth: "/api/auth/*",
-        documentation: "/api-docs",
-        landing: "/"
-      }
-    });
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    message: 'Welcome to Express API Kit! 🚀',
+    CreatedBy: 'Express Generator API Kit Created by Muhammad Ahmad with ❤️.',
+    status: 'Running Smoothly ✅',
+    versions: {
+      v1: '/api/v1',
+    },
+    documentation: '/api-docs',
   });
+});
 
 module.exports = app;
